@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class SwerveSubsystem extends SubsystemBase {
+    //Creating swerve modules
     private final SwerveModule frontLeft = new SwerveModule(
             Constants.DriveConstants.FRONT_LEFT_DRIVE_MOTOR_ID,
             Constants.DriveConstants.FRONT_LEFT_TURN_MOTOR_ID,
@@ -50,7 +51,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
     private AHRS navx = new AHRS(SPI.Port.kMXP);
 
+    //Constructor
     public SwerveSubsystem() {
+        //The tutorial said this was needed to zero heading during startup
+        //Doesn't really make sense since I thought the gyro zeroed heading automatically when turned on
         new Thread(() -> {
             try {
                 Thread.sleep(1000);
@@ -87,6 +91,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
+        //Decreases speed proportioanlly so that none goes past the velocity limit
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 
         Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
 

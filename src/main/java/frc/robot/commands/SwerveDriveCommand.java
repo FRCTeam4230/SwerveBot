@@ -24,6 +24,7 @@ public class SwerveDriveCommand extends CommandBase {
         this.ySupplier = ySupplier;
         this.turnSupplier = turnSupplier;
         this.fieldOrientedSupplier = fieldOrientedSupplier;
+        //The limiters are used to limit acceleration
         this.xLimiter = new SlewRateLimiter(Constants.DriveConstants.TELE_DRIVE_MAX_ACCEL_UNITS_PER_SEC);
         this.yLimiter = new SlewRateLimiter(Constants.DriveConstants.TELE_DRIVE_MAX_ACCEL_UNITS_PER_SEC);
         this.turnLimiter = new SlewRateLimiter(Constants.DriveConstants.TELE_DRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC);
@@ -38,18 +39,22 @@ public class SwerveDriveCommand extends CommandBase {
 
     @Override
     public void execute() {
+        //Updating numbers
         double xSpeed = xSupplier.getAsDouble();
         double ySpeed = ySupplier.getAsDouble();
         double turnSpeed = turnSupplier.getAsDouble();
 
+        //Applying a deadband manually
         xSpeed = Math.abs(xSpeed) > Constants.OperatorConstants.DEADBAND ? xSpeed : 0.0;
         ySpeed = Math.abs(ySpeed) > Constants.OperatorConstants.DEADBAND ? ySpeed : 0.0;
         turnSpeed = Math.abs(turnSpeed) > Constants.OperatorConstants.DEADBAND ? turnSpeed : 0.0;
 
+        //Limiting acceleration
         xSpeed = xLimiter.calculate(xSpeed) * Constants.DriveConstants.X_SPEED_MULTIPLIER;
         ySpeed = yLimiter.calculate(ySpeed) * Constants.DriveConstants.Y_SPEED_MULTIPLIER;
         turnSpeed = turnLimiter.calculate(turnSpeed) * Constants.DriveConstants.TURN_SPEED_MULTIPLIER;
 
+        //Creates chassis speeds object
         ChassisSpeeds chassisSpeeds;
         if (fieldOrientedSupplier.getAsBoolean()) {
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
@@ -58,9 +63,11 @@ public class SwerveDriveCommand extends CommandBase {
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turnSpeed);
         }
 
+        //Uses chassis speeds object and kinematics object to calculate swerve module states
         SwerveModuleState[] moduleStates = Constants.DriveConstants.KINEMATICS
         .toSwerveModuleStates(chassisSpeeds);
         
+        //Sets speed and rotation
         swerveSubsystem.setModuleStates(moduleStates);
     }
 

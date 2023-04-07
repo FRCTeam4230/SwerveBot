@@ -22,6 +22,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    //Button A to zero heading
     new JoystickButton(driverController, XboxController.Button.kA.value).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading(), swerveSubsystem));
   }
 
