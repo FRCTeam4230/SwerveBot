@@ -18,7 +18,6 @@ public class SwerveSubsystem extends SubsystemBase {
             Constants.DriveConstants.FRONT_LEFT_TURN_MOTOR_ID,
             Constants.DriveConstants.FRONT_LEFT_DRIVE_REVERSED,
             Constants.DriveConstants.FRONT_LEFT_TURN_REVERSED,
-            Constants.DriveConstants.FRONT_LEFT_ABSOLUTE_ENCODER_PORT,
             Constants.DriveConstants.FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET_RAD,
             Constants.DriveConstants.FRONT_LEFT_ABSOLUTE_ENCODER_REVERSED);
 
@@ -27,7 +26,6 @@ public class SwerveSubsystem extends SubsystemBase {
             Constants.DriveConstants.FRONT_RIGHT_TURN_MOTOR_ID,
             Constants.DriveConstants.FRONT_RIGHT_DRIVE_REVERSED,
             Constants.DriveConstants.FRONT_RIGHT_TURN_REVERSED,
-            Constants.DriveConstants.FRONT_RIGHT_ABSOLUTE_ENCODER_PORT,
             Constants.DriveConstants.FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET_RAD,
             Constants.DriveConstants.FRONT_RIGHT_ABSOLUTE_ENCODER_REVERSED);
 
@@ -36,7 +34,6 @@ public class SwerveSubsystem extends SubsystemBase {
             Constants.DriveConstants.BACK_LEFT_TURN_MOTOR_ID,
             Constants.DriveConstants.BACK_LEFT_DRIVE_REVERSED,
             Constants.DriveConstants.BACK_LEFT_TURN_REVERSED,
-            Constants.DriveConstants.BACK_LEFT_ABSOLUTE_ENCODER_PORT,
             Constants.DriveConstants.BACK_LEFT_ABSOLUTE_ENCODER_OFFSET_RAD,
             Constants.DriveConstants.BACK_LEFT_ABSOLUTE_ENCODER_REVERSED);
 
@@ -45,7 +42,6 @@ public class SwerveSubsystem extends SubsystemBase {
             Constants.DriveConstants.BACK_RIGHT_TURN_MOTOR_ID,
             Constants.DriveConstants.BACK_RIGHT_DRIVE_REVERSED,
             Constants.DriveConstants.BACK_RIGHT_TURN_REVERSED,
-            Constants.DriveConstants.BACK_RIGHT_ABSOLUTE_ENCODER_PORT,
             Constants.DriveConstants.BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET_RAD,
             Constants.DriveConstants.BACK_RIGHT_ABSOLUTE_ENCODER_REVERSED);
 

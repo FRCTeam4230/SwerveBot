@@ -17,17 +17,14 @@ public class SwerveModule {
 
     private final PIDController turningPidController;
 
-    //This is from tutorial, I don't need this encoder, I can use the on in the talon srx motor
-    private final AnalogInput absoluteEncoder;
     private final boolean absoluteEncoderReversed;
     private final double absoluteEncoderOffsetRad;
 
     public SwerveModule(int driverMotorId, int turningMotorId,
             boolean driveMotorReversed, boolean turningMotorReversed,
-            int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
+            double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
         this.absoluteEncoderReversed = absoluteEncoderReversed;
-        absoluteEncoder = new AnalogInput(absoluteEncoderId);
 
         driveMotor = new TalonSRX(driverMotorId);
         turnMotor = new TalonSRX(turningMotorId);
@@ -64,8 +61,8 @@ public class SwerveModule {
 
     public double getAbsoluteEncoderRad() {
         //I need to figure out how to get the angle from analog input
-        // double angle = turnMotor.getSensorCollection().getAnalogIn();
-        double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
+        double angle = turnMotor.getSensorCollection().getAnalogIn();
+        // double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
         angle *= 2.0 * Math.PI;
         angle -= absoluteEncoderOffsetRad;
         return angle * (absoluteEncoderReversed ? -1.0 : 1.0);
