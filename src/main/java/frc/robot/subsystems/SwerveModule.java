@@ -47,19 +47,19 @@ public class SwerveModule {
     }
 
     public double getDrivePosition() {
-        return driveMotor.getSelectedSensorPosition();
+        return driveMotor.getSensorCollection().getQuadraturePosition();
     }
 
     public double getTurnPosition() {
-        return turnMotor.getSelectedSensorPosition();
+        return turnMotor.getSensorCollection().getQuadraturePosition();
     }
 
     public double getDriveVelocity() {
-        return driveMotor.getSelectedSensorVelocity();
+        return driveMotor.getSensorCollection().getQuadratureVelocity();
     }
 
     public double getTurnVelocity() {
-        return turnMotor.getSelectedSensorVelocity();
+        return turnMotor.getSensorCollection().getQuadratureVelocity();
     }
 
     public double getAbsoluteEncoderRad() {
@@ -85,11 +85,16 @@ public class SwerveModule {
     }
 
     public void setDesiredState(SwerveModuleState state) {
+        //Ignores small inputs
         if(Math.abs(state.speedMetersPerSecond) < 0.001) {
             stop();
             return;
         }
+
+        
         state = SwerveModuleState.optimize(state, getState().angle);
+
+        //Setting motors
         driveMotor.set(TalonSRXControlMode.PercentOutput, 
         state.speedMetersPerSecond / Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
         turnMotor.set(TalonSRXControlMode.PercentOutput, 
