@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -40,7 +41,7 @@ public class SwerveModule {
         configMotors(driveMotor);
         configMotors(turnMotor);
 
-        turnMotor.configFeedbackNotContinuous(true, 0);
+        turnMotor.configFeedbackNotContinuous(true, 10);
     }
 
     public double getDrivePosition() {
@@ -48,7 +49,7 @@ public class SwerveModule {
     }
 
     public double getTurnPosition() {
-        return turnMotor.getSensorCollection().getQuadraturePosition();
+        return turnMotor.getSensorCollection().getQuadraturePosition() * Constants.SwerveModuleConstants.TURN_ENCODER_ROT_TO_RAD;
     }
 
     public double getDriveVelocity() {
@@ -61,7 +62,7 @@ public class SwerveModule {
 
     public double getAbsoluteEncoderRad() {
         //I need to figure out how to get the angle from analog input
-        double angle = turnMotor.getSensorCollection().getAnalogIn();
+        double angle = turnMotor.getSensorCollection().getAnalogInRaw();
         // double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
         angle *= 2.0 * Math.PI;
         angle -= absoluteEncoderOffsetRad;
@@ -74,7 +75,8 @@ public class SwerveModule {
 
     public void resetEncoders() {
         driveMotor.setSelectedSensorPosition(0);
-        turnMotor.setSelectedSensorPosition(getAbsoluteEncoderRad());
+        turnMotor.setSelectedSensorPosition(0);
+        // turnMotor.setSelectedSensorPosition(getAbsoluteEncoderRad());
     }
 
     public SwerveModuleState getState() {
@@ -93,7 +95,7 @@ public class SwerveModule {
 
         //Setting motors
         driveMotor.set(TalonSRXControlMode.PercentOutput, 
-        state.speedMetersPerSecond / Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
+        state.speedMetersPerSecond * Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
         turnMotor.set(TalonSRXControlMode.PercentOutput, 
         turningPidController.calculate(getTurnPosition(), 
         state.angle.getRadians()));
@@ -107,6 +109,12 @@ public class SwerveModule {
     private void configMotors(TalonSRX motor) {
         motor.configFactoryDefault();
         motor.configOpenloopRamp(Constants.SwerveModuleConstants.RAMP_RATE);
+        motor.configLimitSwitchDisableNeutralOnLOS(true, 20);
+        motor.configPeakCurrentLimit(40);
+        motor.configPeakCurrentDuration(1500);
+        motor.configContinuousCurrentLimit(30);
+        motor.configNeutralDeadband(0.05);
+        motor.setNeutralMode(NeutralMode.Coast);
     }
 
 }
