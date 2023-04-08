@@ -106,7 +106,10 @@ public class SwerveSubsystem extends SubsystemBase {
         builder.addDoubleProperty("Back Left Analog", () -> backLeft.getAnalogEncoder(), null);
         builder.addDoubleProperty("Back Right Analog", () -> backRight.getAnalogEncoder(), null);
 
-        builder.addDoubleProperty("Front left angle", () -> frontLeft.getAbsoluteEncoderRad(), null);
         builder.addDoubleProperty("Front left quad encoder", () -> frontLeft.getTurnPosition(), null);
+        builder.addDoubleProperty("Front right quad encoder", () -> frontRight.getTurnPosition(), null);
+        builder.addDoubleProperty("Back left quad encoder", () -> backLeft.getTurnPosition(), null);
+        builder.addDoubleProperty("Back right quad encoder", () -> backRight.getTurnPosition(), null);
+
     }
 }

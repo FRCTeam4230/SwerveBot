@@ -29,10 +29,10 @@ public class RobotContainer {
   private void configureDefaultCommands() {
     swerveSubsystem.setDefaultCommand(new SwerveDriveCommand(
         swerveSubsystem,
-        () -> driverController.getLeftX(),
         () -> driverController.getLeftY(),
+        () -> driverController.getLeftX(),
         () -> driverController.getRightX(),
-        () -> !driverController.getAButton()));
+        () -> true));
   }
 
   public Command getAutonomousCommand() {

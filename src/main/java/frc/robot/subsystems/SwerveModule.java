@@ -31,11 +31,11 @@ public class SwerveModule {
         driveMotor = new TalonSRX(driverMotorId);
         turnMotor = new TalonSRX(turningMotorId);
 
-        configMotors(driveMotor);
-        configMotors(turnMotor);
-
         driveMotor.setInverted(driveMotorReversed);
         turnMotor.setInverted(turningMotorReversed);
+
+        configMotors(driveMotor);
+        configMotors(turnMotor);
 
         turnMotor.configFeedbackNotContinuous(true, 10);
 
@@ -50,7 +50,8 @@ public class SwerveModule {
     }
 
     public double getTurnPosition() {
-        return turnMotor.getSensorCollection().getQuadraturePosition() * Constants.SwerveModuleConstants.TURN_ENCODER_ROT_TO_RAD;
+        double pos = turnMotor.getSensorCollection().getQuadraturePosition() * Constants.SwerveModuleConstants.TURN_ENCODER_ROT_TO_RAD;
+        return pos;
     }
 
     public double getDriveVelocity() {
@@ -115,6 +116,8 @@ public class SwerveModule {
         motor.configPeakCurrentDuration(1500);
         motor.configContinuousCurrentLimit(30);
         motor.configNeutralDeadband(0.05);
+        motor.configNominalOutputForward(0.0);
+        motor.configNominalOutputReverse(0.0);
         motor.setNeutralMode(NeutralMode.Coast);
     }
 

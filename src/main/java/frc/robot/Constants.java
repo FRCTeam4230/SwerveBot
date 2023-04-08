@@ -23,7 +23,7 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
   public static class SwerveModuleConstants {
     //Needs to be tuned
-    public static final double kP_TURNING = 0.3;
+    public static final double kP_TURNING = 0.4;
 
     //Unused
     public static final double DRIVE_MOTOR_GEAR_RATIO = 0;
@@ -40,7 +40,7 @@ public final class Constants {
 
   public static class DriveConstants {
 
-    public static final double MAX_SPEED_METERS_PER_SEC = 0.5;
+    public static final double MAX_SPEED_METERS_PER_SEC = 0.41;
 
     public static final int FRONT_LEFT_DRIVE_MOTOR_ID = 7;
     public static final int FRONT_LEFT_TURN_MOTOR_ID = 8;
@@ -72,7 +72,7 @@ public final class Constants {
 
     //These probably need to be adjusted
     public static final double TELE_DRIVE_MAX_ACCEL_UNITS_PER_SEC = 1;
-    public static final double TELE_DRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = 0.7;
+    public static final double TELE_DRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = 1;
 
     public static final double X_SPEED_MULTIPLIER = 0.4;
     public static final double Y_SPEED_MULTIPLIER = 0.4;
@@ -81,11 +81,16 @@ public final class Constants {
     public static final double TRACK_WIDTH = Units.inchesToMeters(15.5); //Distance between left and right wheels
     public static final double WHEEL_BASE = Units.inchesToMeters(11.5); //Distance between front and back wheels
 
+    public static final Translation2d FRONT_LEFT_TRANSLATION = new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2);
+    public static final Translation2d FRONT_RIGHT_TRANSLATION = new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2);
+    public static final Translation2d BACK_LEFT_TRANSLATION = new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2);
+    public static final Translation2d BACK_RIGHT_TRANSLATION = new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2);
+
     public static final SwerveDriveKinematics KINEMATICS = new SwerveDriveKinematics(
-      new Translation2d(-TRACK_WIDTH / 2, WHEEL_BASE / 2),
-      new Translation2d(TRACK_WIDTH / 2, WHEEL_BASE / 2), 
-      new Translation2d(-TRACK_WIDTH / 2, -WHEEL_BASE / 2),
-      new Translation2d(TRACK_WIDTH / 2, -WHEEL_BASE / 2)
+      FRONT_LEFT_TRANSLATION,
+      FRONT_RIGHT_TRANSLATION, 
+      BACK_LEFT_TRANSLATION,
+      BACK_RIGHT_TRANSLATION
     );
   }
 
