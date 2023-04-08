@@ -74,18 +74,18 @@ public final class Constants {
     public static final double TELE_DRIVE_MAX_ACCEL_UNITS_PER_SEC = 1;
     public static final double TELE_DRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = 0.7;
 
-    public static final double X_SPEED_MULTIPLIER = 0.3;
-    public static final double Y_SPEED_MULTIPLIER = 0.3;
-    public static final double TURN_SPEED_MULTIPLIER = 0.4;
+    public static final double X_SPEED_MULTIPLIER = 0.4;
+    public static final double Y_SPEED_MULTIPLIER = 0.4;
+    public static final double TURN_SPEED_MULTIPLIER = 0.5;
 
     public static final double TRACK_WIDTH = Units.inchesToMeters(15.5); //Distance between left and right wheels
     public static final double WHEEL_BASE = Units.inchesToMeters(11.5); //Distance between front and back wheels
 
     public static final SwerveDriveKinematics KINEMATICS = new SwerveDriveKinematics(
-      new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2),
-      new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2), 
-      new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2),
-      new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2)
+      new Translation2d(-TRACK_WIDTH / 2, WHEEL_BASE / 2),
+      new Translation2d(TRACK_WIDTH / 2, WHEEL_BASE / 2), 
+      new Translation2d(-TRACK_WIDTH / 2, -WHEEL_BASE / 2),
+      new Translation2d(TRACK_WIDTH / 2, -WHEEL_BASE / 2)
     );
   }
 
