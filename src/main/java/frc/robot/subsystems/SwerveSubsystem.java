@@ -118,7 +118,5 @@ public class SwerveSubsystem extends SubsystemBase {
         builder.addDoubleProperty("Front right selected sensor", () -> frontRight.getTurnMotorSelectedSensorPos(), null);
         builder.addDoubleProperty("Back left selected sensor", () -> backLeft.getTurnMotorSelectedSensorPos(), null);
         builder.addDoubleProperty("Back right selected sensor", () -> backRight.getTurnMotorSelectedSensorPos(), null);
-
-
     }
 }

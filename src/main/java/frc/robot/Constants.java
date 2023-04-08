@@ -17,7 +17,8 @@ public final class Constants {
     public static final double DRIVE_ENCODER_RPM_TO_METER_PER_SEC = DRIVE_ENCODER_ROT_TO_METER / 60;
 
     //1604 determined experimentally
-    public static final double TURN_ENCODER_ROT_TO_RAD =  (2 * Math.PI) / 1604.0;
+    public static final double TURN_ENCODER_ROT_TO_RAD =  (2 * Math.PI) / 1600.0; //0.003926990816987242
+    // public static final double TURN_ENCODER_ROT_TO_RAD = (1.0 / 70) / 27 * 1.2 * 2 * Math.PI;
     public static final double TURN_ENCODER_RPM_TO_RAD_PER_SEC = TURN_ENCODER_ROT_TO_RAD / 60;
     public static final double RAMP_RATE = 0.2;
   }

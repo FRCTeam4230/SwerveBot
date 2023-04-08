@@ -54,8 +54,6 @@ public class SwerveDriveCommand extends CommandBase {
         ySpeed = yLimiter.calculate(ySpeed) * Constants.DriveConstants.Y_SPEED_MULTIPLIER;
         turnSpeed = turnLimiter.calculate(turnSpeed) * Constants.DriveConstants.TURN_SPEED_MULTIPLIER;
 
-        xSpeed *= -1;
-
         //Creates chassis speeds object
         ChassisSpeeds chassisSpeeds;
         if (fieldOrientedSupplier.getAsBoolean()) {

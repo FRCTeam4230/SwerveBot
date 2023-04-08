@@ -27,7 +27,6 @@ public class SwerveModule {
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
         this.absoluteEncoderReversed = absoluteEncoderReversed;
 
-        
         driveMotor = new TalonSRX(driverMotorId);
         turnMotor = new TalonSRX(turningMotorId);
 
@@ -45,17 +44,18 @@ public class SwerveModule {
         resetEncoders();
     }
 
-    //Getting encoder position
+    // Getting encoder position
     public double getDrivePosition() {
         return driveMotor.getSensorCollection().getQuadraturePosition();
     }
 
     public double getTurnPosition() {
-        double pos = turnMotor.getSensorCollection().getQuadraturePosition() * Constants.SwerveModuleConstants.TURN_ENCODER_ROT_TO_RAD;
+        double pos = turnMotor.getSensorCollection().getQuadraturePosition()
+                * Constants.SwerveModuleConstants.TURN_ENCODER_ROT_TO_RAD;
         return pos;
     }
 
-    //Getting encoder velocity
+    // Getting encoder velocity
     public double getDriveVelocity() {
         return driveMotor.getSensorCollection().getQuadratureVelocity();
     }
@@ -65,7 +65,7 @@ public class SwerveModule {
     }
 
     public double getAbsoluteEncoderRad() {
-        //I need to figure out how to get the angle from analog input
+        // I need to figure out how to get the angle from analog input
         double angle = turnMotor.getSensorCollection().getAnalogInRaw() / RobotController.getVoltage5V();
         // double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
         angle *= 2.0 * Math.PI;
@@ -88,21 +88,27 @@ public class SwerveModule {
     }
 
     public void setDesiredState(SwerveModuleState state) {
-        //Ignores small inputs
-        if(Math.abs(state.speedMetersPerSecond) < 0.001) {
+        // Ignores small inputs
+        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             stop();
             return;
         }
 
-        
         state = SwerveModuleState.optimize(state, getState().angle);
 
-        //Setting motors
-        driveMotor.set(TalonSRXControlMode.PercentOutput, 
-        state.speedMetersPerSecond * Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
-        turnMotor.set(TalonSRXControlMode.PercentOutput, 
-        turningPidController.calculate(getTurnPosition(), 
-        state.angle.getRadians()));
+        double turnOutput = turningPidController.calculate(getTurnPosition(),
+                state.angle.getRadians());
+
+        // Setting motors
+        driveMotor.set(TalonSRXControlMode.PercentOutput,
+                state.speedMetersPerSecond * Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
+
+        turnMotor.set(TalonSRXControlMode.PercentOutput,
+                turnOutput);
+    }
+
+    public TalonSRX getTurnMotor() {
+        return turnMotor;
     }
 
     public void stop() {
