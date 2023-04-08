@@ -27,21 +27,22 @@ public class SwerveModule {
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
         this.absoluteEncoderReversed = absoluteEncoderReversed;
 
+        
         driveMotor = new TalonSRX(driverMotorId);
         turnMotor = new TalonSRX(turningMotorId);
 
+        configMotors(driveMotor);
+        configMotors(turnMotor);
+
         driveMotor.setInverted(driveMotorReversed);
         turnMotor.setInverted(turningMotorReversed);
+
+        turnMotor.configFeedbackNotContinuous(true, 10);
 
         turningPidController = new PIDController(Constants.SwerveModuleConstants.kP_TURNING, 0, 0);
         turningPidController.enableContinuousInput(-Math.PI, Math.PI);
 
         resetEncoders();
-
-        configMotors(driveMotor);
-        configMotors(turnMotor);
-
-        turnMotor.configFeedbackNotContinuous(true, 10);
     }
 
     public double getDrivePosition() {
