@@ -66,10 +66,12 @@ public class SwerveSubsystem extends SubsystemBase {
         navx.reset();
     }
 
+    //Returns heading between -360 to 360
     public double getHeading() {
         return Math.IEEEremainder(navx.getAngle(), 360);
     }
 
+    //Gets heading but as Rotation2d object
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getHeading());
     }
@@ -91,6 +93,7 @@ public class SwerveSubsystem extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 
         Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
 
+        //Setting swerve module states
         frontLeft.setDesiredState(desiredStates[0]);
         frontRight.setDesiredState(desiredStates[1]);
         backLeft.setDesiredState(desiredStates[2]);
@@ -101,15 +104,21 @@ public class SwerveSubsystem extends SubsystemBase {
     public void initSendable(SendableBuilder builder){
         super.initSendable(builder);
 
-        builder.addDoubleProperty("Front Left Analog", () -> frontLeft.getAnalogEncoder(), null);
-        builder.addDoubleProperty("Front Right Analog", () -> frontRight.getAnalogEncoder(), null);
-        builder.addDoubleProperty("Back Left Analog", () -> backLeft.getAnalogEncoder(), null);
-        builder.addDoubleProperty("Back Right Analog", () -> backRight.getAnalogEncoder(), null);
+        builder.addDoubleProperty("Front Left Analog", () -> frontLeft.getAbsoluteEncoderRad(), null);
+        builder.addDoubleProperty("Front Right Analog", () -> frontRight.getAbsoluteEncoderRad(), null);
+        builder.addDoubleProperty("Back Left Analog", () -> backLeft.getAbsoluteEncoderRad(), null);
+        builder.addDoubleProperty("Back Right Analog", () -> backRight.getAbsoluteEncoderRad(), null);
 
         builder.addDoubleProperty("Front left quad encoder", () -> frontLeft.getTurnPosition(), null);
         builder.addDoubleProperty("Front right quad encoder", () -> frontRight.getTurnPosition(), null);
         builder.addDoubleProperty("Back left quad encoder", () -> backLeft.getTurnPosition(), null);
         builder.addDoubleProperty("Back right quad encoder", () -> backRight.getTurnPosition(), null);
+
+        builder.addDoubleProperty("Front left selected sensor", () -> frontLeft.getTurnMotorSelectedSensorPos(), null);
+        builder.addDoubleProperty("Front right selected sensor", () -> frontRight.getTurnMotorSelectedSensorPos(), null);
+        builder.addDoubleProperty("Back left selected sensor", () -> backLeft.getTurnMotorSelectedSensorPos(), null);
+        builder.addDoubleProperty("Back right selected sensor", () -> backRight.getTurnMotorSelectedSensorPos(), null);
+
 
     }
 }

@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -7,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.Constants;
 
@@ -45,6 +45,7 @@ public class SwerveModule {
         resetEncoders();
     }
 
+    //Getting encoder position
     public double getDrivePosition() {
         return driveMotor.getSensorCollection().getQuadraturePosition();
     }
@@ -54,6 +55,7 @@ public class SwerveModule {
         return pos;
     }
 
+    //Getting encoder velocity
     public double getDriveVelocity() {
         return driveMotor.getSensorCollection().getQuadratureVelocity();
     }
@@ -64,7 +66,7 @@ public class SwerveModule {
 
     public double getAbsoluteEncoderRad() {
         //I need to figure out how to get the angle from analog input
-        double angle = turnMotor.getSensorCollection().getAnalogInRaw();
+        double angle = turnMotor.getSensorCollection().getAnalogInRaw() / RobotController.getVoltage5V();
         // double angle = absoluteEncoder.getVoltage() / RobotController.getVoltage5V();
         angle *= 2.0 * Math.PI;
         angle -= absoluteEncoderOffsetRad;
@@ -108,6 +110,10 @@ public class SwerveModule {
         turnMotor.set(TalonSRXControlMode.PercentOutput, 0);
     }
 
+    public double getTurnMotorSelectedSensorPos() {
+        return turnMotor.getSelectedSensorPosition();
+    }
+
     private void configMotors(TalonSRX motor) {
         motor.configFactoryDefault();
         motor.configOpenloopRamp(Constants.SwerveModuleConstants.RAMP_RATE);
@@ -118,6 +124,7 @@ public class SwerveModule {
         motor.configNeutralDeadband(0.05);
         motor.configNominalOutputForward(0.0);
         motor.configNominalOutputReverse(0.0);
+        motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
         motor.setNeutralMode(NeutralMode.Coast);
     }
 

@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import frc.robot.commands.SwerveDriveCommand;
@@ -29,9 +25,14 @@ public class RobotContainer {
   private void configureDefaultCommands() {
     swerveSubsystem.setDefaultCommand(new SwerveDriveCommand(
         swerveSubsystem,
+        //The robot thinks that x means front and back, y means left and right
+        //That's the opposite of what we think when we use joysticks
+        //So X is being passed in as Y, and Y is being passed as X to fix that
         () -> driverController.getLeftY(),
         () -> driverController.getLeftX(),
         () -> driverController.getRightX(),
+        //Eventually, make this a toggle button that allows the user to switch between
+        //field centric and robot centric driving
         () -> true));
   }
 
