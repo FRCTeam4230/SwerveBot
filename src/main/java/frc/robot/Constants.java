@@ -29,7 +29,7 @@ public final class Constants {
 
     public static final int FRONT_LEFT_DRIVE_MOTOR_ID = 7;
     public static final int FRONT_LEFT_TURN_MOTOR_ID = 8;
-    public static final boolean FRONT_LEFT_DRIVE_REVERSED = true;
+    public static final boolean FRONT_LEFT_DRIVE_REVERSED = false;
     public static final boolean FRONT_LEFT_TURN_REVERSED = false;
     public static final double FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET_RAD = 0;
     public static final boolean FRONT_LEFT_ABSOLUTE_ENCODER_REVERSED = false;
@@ -43,7 +43,7 @@ public final class Constants {
 
     public static final int BACK_LEFT_DRIVE_MOTOR_ID = 6;
     public static final int BACK_LEFT_TURN_MOTOR_ID = 5;
-    public static final boolean BACK_LEFT_DRIVE_REVERSED = true;
+    public static final boolean BACK_LEFT_DRIVE_REVERSED = false;
     public static final boolean BACK_LEFT_TURN_REVERSED = false;
     public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET_RAD = 0;
     public static final boolean BACK_LEFT_ABSOLUTE_ENCODER_REVERSED = false;
@@ -57,11 +57,11 @@ public final class Constants {
 
     //These probably need to be adjusted
     public static final double TELE_DRIVE_MAX_ACCEL_UNITS_PER_SEC = 1;
-    public static final double TELE_DRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = 1;
+    public static final double TELE_DRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = 1.5;
 
     public static final double X_SPEED_MULTIPLIER = 0.4;
     public static final double Y_SPEED_MULTIPLIER = 0.4;
-    public static final double TURN_SPEED_MULTIPLIER = 0.5;
+    public static final double TURN_SPEED_MULTIPLIER = 0.7;
 
     public static final double TRACK_WIDTH = Units.inchesToMeters(15.5); //Distance between left and right wheels
     public static final double WHEEL_BASE = Units.inchesToMeters(11.5); //Distance between front and back wheels
