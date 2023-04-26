@@ -103,7 +103,9 @@ public class SwerveModule {
         driveMotor.set(TalonSRXControlMode.PercentOutput,
                 state.speedMetersPerSecond * Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
 
-        turnMotor.set(TalonSRXControlMode.PercentOutput,
+        //turnMotor.set(TalonSRXControlMode.PercentOutput, 0);
+
+                turnMotor.set(TalonSRXControlMode.PercentOutput,
                 turnOutput);
     }
 

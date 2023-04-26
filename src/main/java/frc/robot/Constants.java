@@ -16,9 +16,9 @@ public final class Constants {
     public static final double DRIVE_ENCODER_ROT_TO_METER = DRIVE_MOTOR_GEAR_RATIO * Math.PI * WHEEL_DIAMETER_METERS;
     public static final double DRIVE_ENCODER_RPM_TO_METER_PER_SEC = DRIVE_ENCODER_ROT_TO_METER / 60;
 
-    //1604 determined experimentally
-    public static final double TURN_ENCODER_ROT_TO_RAD =  (2 * Math.PI) / 1600.0; //0.003926990816987242
-    // public static final double TURN_ENCODER_ROT_TO_RAD = (1.0 / 70) / 27 * 1.2 * 2 * Math.PI;
+    // public static final double TURN_ENCODER_ROT_TO_RAD = (1.0 / 7.0) / 27 * 1.2 * 2 * Math.PI;
+    // public static final double TURN_ENCODER_ROT_TO_RAD = 40.0 / 48.0;
+    public static final double TURN_ENCODER_ROT_TO_RAD = (2.0 * Math.PI) / 1656.0;
     public static final double TURN_ENCODER_RPM_TO_RAD_PER_SEC = TURN_ENCODER_ROT_TO_RAD / 60;
     public static final double RAMP_RATE = 0.2;
   }
@@ -59,8 +59,8 @@ public final class Constants {
     public static final double TELE_DRIVE_MAX_ACCEL_UNITS_PER_SEC = 1;
     public static final double TELE_DRIVE_MAX_ANGULAR_ACCEL_UNITS_PER_SEC = 1.5;
 
-    public static final double X_SPEED_MULTIPLIER = 0.4;
-    public static final double Y_SPEED_MULTIPLIER = 0.4;
+    public static final double X_SPEED_MULTIPLIER = 0.6;
+    public static final double Y_SPEED_MULTIPLIER = 0.6;
     public static final double TURN_SPEED_MULTIPLIER = 0.7;
 
     public static final double TRACK_WIDTH = Units.inchesToMeters(15.5); //Distance between left and right wheels
