@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
 
 public class SwerveModule {
 
@@ -103,10 +104,17 @@ public class SwerveModule {
         driveMotor.set(TalonSRXControlMode.PercentOutput,
                 state.speedMetersPerSecond * Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
 
-        //turnMotor.set(TalonSRXControlMode.PercentOutput, 0);
-
-                turnMotor.set(TalonSRXControlMode.PercentOutput,
+        turnMotor.set(TalonSRXControlMode.PercentOutput,
                 turnOutput);
+    }
+
+    public void turnInPlace(SwerveModuleState state, double power) {
+        double turnOutput = turningPidController.calculate(getTurnPosition(),
+                state.angle.getRadians());
+
+        turnMotor.set(TalonSRXControlMode.PercentOutput, turnOutput);
+        driveMotor.set(TalonSRXControlMode.PercentOutput,
+                power * DriveConstants.MAX_SPEED_METERS_PER_SEC);
     }
 
     public TalonSRX getTurnMotor() {

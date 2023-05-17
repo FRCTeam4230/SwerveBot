@@ -100,6 +100,18 @@ public class SwerveSubsystem extends SubsystemBase {
         backRight.setDesiredState(desiredStates[3]);
     }
 
+    public void turnInPlace(SwerveModuleState[] desiredStates, double power) {
+        //Decreases speed proportioanlly so that none goes past the velocity limit
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 
+        Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
+
+        frontLeft.turnInPlace(desiredStates[0], power);
+        frontRight.turnInPlace(desiredStates[1], power);
+        backLeft.turnInPlace(desiredStates[2], power);
+        backRight.turnInPlace(desiredStates[3], power);
+
+    }
+
     @Override
     public void initSendable(SendableBuilder builder){
         super.initSendable(builder);
