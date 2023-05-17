@@ -90,7 +90,7 @@ public class SwerveModule {
 
     public void setDesiredState(SwerveModuleState state) {
         // Ignores small inputs
-        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
+        if (Math.abs(state.speedMetersPerSecond) < 0.004) {
             stop();
             return;
         }
@@ -109,12 +109,20 @@ public class SwerveModule {
     }
 
     public void turnInPlace(SwerveModuleState state, double power) {
+
+        if(Math.abs(power) < 0.004) {
+            stop();
+            return;
+        }
+
+        state = SwerveModuleState.optimize(state, getState().angle);
+
         double turnOutput = turningPidController.calculate(getTurnPosition(),
                 state.angle.getRadians());
 
         turnMotor.set(TalonSRXControlMode.PercentOutput, turnOutput);
         driveMotor.set(TalonSRXControlMode.PercentOutput,
-                power * DriveConstants.MAX_SPEED_METERS_PER_SEC);
+                power * DriveConstants.MAX_TURN_IN_PLACE_SPEEED);
     }
 
     public TalonSRX getTurnMotor() {

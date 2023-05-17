@@ -67,7 +67,7 @@ public class SwerveDriveCommand extends CommandBase {
         // states
         SwerveModuleState[] moduleStates = Constants.DriveConstants.KINEMATICS
                 .toSwerveModuleStates(chassisSpeeds);
-
+        
         // Sets speed and rotation
         //If there is turning power but no movement power, turn in place
         if (turnSpeed != 0 && (xSpeed == 0 || ySpeed == 0)) {
