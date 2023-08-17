@@ -40,7 +40,7 @@ public class SwerveModule {
         turnMotor.configFeedbackNotContinuous(true, 10);
 
         turningPidController = new PIDController(Constants.SwerveModuleConstants.kP_TURNING, 0, 0);
-        turningPidController.enableContinuousInput(-Math.PI, Math.PI);
+        turningPidController.enableContinuousInput(-2 * Math.PI,2* Math.PI);
 
         resetEncoders();
     }
@@ -106,23 +106,6 @@ public class SwerveModule {
 
         turnMotor.set(TalonSRXControlMode.PercentOutput,
                 turnOutput);
-    }
-
-    public void turnInPlace(SwerveModuleState state, double power) {
-
-        if(Math.abs(power) < 0.004) {
-            stop();
-            return;
-        }
-
-        state = SwerveModuleState.optimize(state, getState().angle);
-
-        double turnOutput = turningPidController.calculate(getTurnPosition(),
-                state.angle.getRadians());
-
-        turnMotor.set(TalonSRXControlMode.PercentOutput, turnOutput);
-        driveMotor.set(TalonSRXControlMode.PercentOutput,
-                power * DriveConstants.MAX_TURN_IN_PLACE_SPEEED);
     }
 
     public TalonSRX getTurnMotor() {

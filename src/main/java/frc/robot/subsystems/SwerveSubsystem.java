@@ -62,13 +62,20 @@ public class SwerveSubsystem extends SubsystemBase {
         SmartDashboard.putData(this);
     }
 
+    public void resetEncoders() {
+        frontLeft.resetEncoders();
+        frontRight.resetEncoders();
+        backLeft.resetEncoders();
+        backRight.resetEncoders();
+    }
+
     public void zeroHeading() {
         navx.reset();
     }
 
     //Returns heading between -360 to 360
     public double getHeading() {
-        return Math.IEEEremainder(navx.getAngle(), 360);
+        return -Math.IEEEremainder(navx.getAngle(), 360);
     }
 
     //Gets heading but as Rotation2d object
@@ -90,8 +97,8 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
         //Decreases speed proportioanlly so that none goes past the velocity limit
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 
-        Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates,
+                Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
 
         //Setting swerve module states
         frontLeft.setDesiredState(desiredStates[0]);
@@ -100,20 +107,8 @@ public class SwerveSubsystem extends SubsystemBase {
         backRight.setDesiredState(desiredStates[3]);
     }
 
-    public void turnInPlace(SwerveModuleState[] desiredStates, double power) {
-        //Decreases speed proportioanlly so that none goes past the velocity limit
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, 
-        Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
-
-        frontLeft.turnInPlace(desiredStates[0], power);
-        frontRight.turnInPlace(desiredStates[1], power);
-        backLeft.turnInPlace(desiredStates[2], power);
-        backRight.turnInPlace(desiredStates[3], power);
-
-    }
-
     @Override
-    public void initSendable(SendableBuilder builder){
+    public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
 
         builder.addDoubleProperty("Front Left Analog", () -> frontLeft.getAbsoluteEncoderRad(), null);
