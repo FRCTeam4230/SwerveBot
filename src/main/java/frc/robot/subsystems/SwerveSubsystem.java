@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -85,7 +84,6 @@ public class SwerveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Robot Heading", getHeading());
     }
 
     public void stopModules() {
@@ -111,19 +109,11 @@ public class SwerveSubsystem extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
 
-        builder.addDoubleProperty("Front Left Analog", () -> frontLeft.getAbsoluteEncoderRad(), null);
-        builder.addDoubleProperty("Front Right Analog", () -> frontRight.getAbsoluteEncoderRad(), null);
-        builder.addDoubleProperty("Back Left Analog", () -> backLeft.getAbsoluteEncoderRad(), null);
-        builder.addDoubleProperty("Back Right Analog", () -> backRight.getAbsoluteEncoderRad(), null);
+        builder.addDoubleProperty("Front left quad encoder", frontLeft::getTurnPosition, null);
+        builder.addDoubleProperty("Front right quad encoder", frontRight::getTurnPosition, null);
+        builder.addDoubleProperty("Back left quad encoder", backLeft::getTurnPosition, null);
+        builder.addDoubleProperty("Back right quad encoder", backRight::getTurnPosition, null);
 
-        builder.addDoubleProperty("Front left quad encoder", () -> frontLeft.getTurnPosition(), null);
-        builder.addDoubleProperty("Front right quad encoder", () -> frontRight.getTurnPosition(), null);
-        builder.addDoubleProperty("Back left quad encoder", () -> backLeft.getTurnPosition(), null);
-        builder.addDoubleProperty("Back right quad encoder", () -> backRight.getTurnPosition(), null);
-
-        builder.addDoubleProperty("Front left selected sensor", () -> frontLeft.getTurnMotorSelectedSensorPos(), null);
-        builder.addDoubleProperty("Front right selected sensor", () -> frontRight.getTurnMotorSelectedSensorPos(), null);
-        builder.addDoubleProperty("Back left selected sensor", () -> backLeft.getTurnMotorSelectedSensorPos(), null);
-        builder.addDoubleProperty("Back right selected sensor", () -> backRight.getTurnMotorSelectedSensorPos(), null);
+        builder.addDoubleProperty("Robot Heading", this::getHeading, null);
     }
 }

@@ -4,13 +4,12 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.Constants;
-import frc.robot.Constants.DriveConstants;
 
 public class SwerveModule {
 
@@ -23,8 +22,8 @@ public class SwerveModule {
     private final double absoluteEncoderOffsetRad;
 
     public SwerveModule(int driverMotorId, int turningMotorId,
-            boolean driveMotorReversed, boolean turningMotorReversed,
-            double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
+                        boolean driveMotorReversed, boolean turningMotorReversed,
+                        double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
         this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
         this.absoluteEncoderReversed = absoluteEncoderReversed;
 
@@ -40,7 +39,7 @@ public class SwerveModule {
         turnMotor.configFeedbackNotContinuous(true, 10);
 
         turningPidController = new PIDController(Constants.SwerveModuleConstants.kP_TURNING, 0, 0);
-        turningPidController.enableContinuousInput(-2 * Math.PI,2* Math.PI);
+        turningPidController.enableContinuousInput(-2 * Math.PI, 2 * Math.PI);
 
         resetEncoders();
     }
@@ -102,10 +101,11 @@ public class SwerveModule {
 
         // Setting motors
         driveMotor.set(TalonSRXControlMode.PercentOutput,
-                state.speedMetersPerSecond * Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
+                MathUtil.clamp(state.speedMetersPerSecond * Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC, -.99, .99));
 
         turnMotor.set(TalonSRXControlMode.PercentOutput,
-                turnOutput);
+                MathUtil.clamp(turnOutput, -.99, .99));
+
     }
 
     public TalonSRX getTurnMotor() {
