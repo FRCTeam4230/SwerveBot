@@ -47,9 +47,9 @@ public final class Constants {
         public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET_RAD = 0;
         public static final boolean BACK_RIGHT_ABSOLUTE_ENCODER_REVERSED = false;
 
-        public static final double X_SPEED_MULTIPLIER = 1;
-        public static final double Y_SPEED_MULTIPLIER = 1;
-        public static final double TURN_SPEED_MULTIPLIER = 4;
+        public static final double X_SPEED_MULTIPLIER = 3;
+        public static final double Y_SPEED_MULTIPLIER = X_SPEED_MULTIPLIER;
+        public static final double TURN_SPEED_MULTIPLIER = 3;
 
         public static final double TRACK_WIDTH = Units.inchesToMeters(15.5); //Distance between left and right wheels
         public static final double WHEEL_BASE = Units.inchesToMeters(11.5); //Distance between front and back wheels
