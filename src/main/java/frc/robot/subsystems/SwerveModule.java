@@ -94,20 +94,17 @@ public class SwerveModule {
             return;
         }
 
-//        state = SwerveModuleState.optimize(state, getState().angle);
+        state = SwerveModuleState.optimize(state, getState().angle);
 
-        double[] optimizedAngleAndDirection = optimize(state);
-        double optimizedAngle = Math.toRadians(optimizedAngleAndDirection[0]);
-        double direction = optimizedAngleAndDirection[1];
 
         double turnOutput = turningPidController.calculate(getTurnPosition(),
-                optimizedAngle);
+                state.angle.getRadians());
 
         // Setting motors
         driveMotor.set(TalonSRXControlMode.PercentOutput,
                 MathUtil.clamp(
-                        state.speedMetersPerSecond * Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC
-                         * direction, -.99, .99));
+                        state.speedMetersPerSecond * Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC,
+                        -.99, .99));
 
         turnMotor.set(TalonSRXControlMode.PercentOutput,
                 MathUtil.clamp(turnOutput, -.99, .99));
@@ -123,35 +120,6 @@ public class SwerveModule {
         turnMotor.set(TalonSRXControlMode.PercentOutput, 0);
     }
 
-    //Outputs [adjusted angle, direction]
-    public double[] optimize(SwerveModuleState inputState) {
-        double targetAngle = inputState.angle.getDegrees();
-        double optimizedAngle;
-        int optimizedDirection;
-        double[] output = {0, 1};
-
-        if (targetAngle > 90) {
-            optimizedAngle = targetAngle - 180;
-            optimizedDirection = -1;
-        } else if (targetAngle < -90) {
-            optimizedAngle = targetAngle + 180;
-            optimizedDirection = -1;
-        } else {
-            optimizedAngle = targetAngle;
-            optimizedDirection = 1;
-        }
-
-        output[0] = targetAngle;
-        output[1] = optimizedDirection;
-
-        return output;
-    }
-
-}
-
-    public double getTurnMotorSelectedSensorPos() {
-        return turnMotor.getSelectedSensorPosition();
-    }
 
     private void configMotors(TalonSRX motor) {
         motor.configFactoryDefault();
