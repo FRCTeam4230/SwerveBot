@@ -26,14 +26,14 @@ public final class Constants {
 
     public static final int FRONT_LEFT_DRIVE_MOTOR_ID = 8;
     public static final int FRONT_LEFT_TURN_MOTOR_ID = 7;
-    public static final boolean FRONT_LEFT_DRIVE_REVERSED = true;
+    public static final boolean FRONT_LEFT_DRIVE_REVERSED = false;
     public static final boolean FRONT_LEFT_TURN_REVERSED = false;
     public static final double FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET_RAD = 0;
     public static final boolean FRONT_LEFT_ABSOLUTE_ENCODER_REVERSED = false;
 
     public static final int FRONT_RIGHT_TURN_MOTOR_ID = 1;
     public static final int FRONT_RIGHT_DRIVE_MOTOR_ID = 2;
-    public static final boolean FRONT_RIGHT_DRIVE_REVERSED = false;
+    public static final boolean FRONT_RIGHT_DRIVE_REVERSED = true;
     public static final boolean FRONT_RIGHT_TURN_REVERSED = false;
     public static final double FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET_RAD = 0;
     public static final boolean FRONT_RIGHT_ABSOLUTE_ENCODER_REVERSED = false;
@@ -45,8 +45,8 @@ public final class Constants {
     public static final double BACK_LEFT_ABSOLUTE_ENCODER_OFFSET_RAD = 0;
     public static final boolean BACK_LEFT_ABSOLUTE_ENCODER_REVERSED = false;
 
-    public static final int BACK_RIGHT_DRIVE_MOTOR_ID = 3;
-    public static final int BACK_RIGHT_TURN_MOTOR_ID = 4;
+    public static final int BACK_RIGHT_DRIVE_MOTOR_ID = 4;
+    public static final int BACK_RIGHT_TURN_MOTOR_ID = 3;
     public static final boolean BACK_RIGHT_DRIVE_REVERSED = true;
     public static final boolean BACK_RIGHT_TURN_REVERSED = false;
     public static final double BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET_RAD = 0;

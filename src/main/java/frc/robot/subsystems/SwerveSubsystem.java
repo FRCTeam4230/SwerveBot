@@ -99,10 +99,11 @@ public class SwerveSubsystem extends SubsystemBase {
             Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
 
     //Setting swerve module states
-    backLeft.setDesiredState(desiredStates[0]);
-    frontLeft.setDesiredState(desiredStates[1]);
-    frontRight.setDesiredState(desiredStates[2]);
-    backRight.setDesiredState(desiredStates[3]);
+    frontLeft.setDesiredState(desiredStates[0]);
+    frontRight.setDesiredState(desiredStates[1]);
+    backRight.setDesiredState(desiredStates[2]);
+    backLeft.setDesiredState(desiredStates[3]);
+
   }
 
   @Override
