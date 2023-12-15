@@ -29,9 +29,6 @@ public class RobotContainer {
   private void configureDefaultCommands() {
     swerveSubsystem.setDefaultCommand(new SwerveDriveCommand(
             swerveSubsystem,
-            //The robot thinks that x means front and back, y means left and right
-            //That's the opposite of what we think when we use joysticks
-            //So X is being passed in as Y, and Y is being passed as X to fix that
             driverController::getLeftY,
             driverController::getLeftX,
             driverController::getRightX,

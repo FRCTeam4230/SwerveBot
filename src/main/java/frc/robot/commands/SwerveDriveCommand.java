@@ -47,9 +47,9 @@ public class SwerveDriveCommand extends CommandBase {
     turnSpeed = Math.abs(turnSpeed) > Constants.OperatorConstants.DEADBAND ? turnSpeed : 0.0;
 
     // Limiting acceleration
-    xSpeed *= Constants.DriveConstants.X_SPEED_MULTIPLIER;
-    ySpeed *= Constants.DriveConstants.Y_SPEED_MULTIPLIER;
-    turnSpeed *= Constants.DriveConstants.TURN_SPEED_MULTIPLIER;
+    xSpeed *= Constants.DriveConstants.X_MAX_METERS_PER_SECOND;
+    ySpeed *= Constants.DriveConstants.Y_MAX_METERS_PER_SECOND;
+    turnSpeed *= Constants.DriveConstants.MAX_RADIANS_PER_SECOND;
 
     // Creates chassis speeds object
     ChassisSpeeds chassisSpeeds;

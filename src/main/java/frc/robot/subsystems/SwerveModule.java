@@ -100,7 +100,7 @@ public class SwerveModule {
 
     // Setting motors
     driveMotor.set(MathUtil.clamp(
-            state.speedMetersPerSecond * Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC,
+            state.speedMetersPerSecond * Constants.DriveConstants.DRIVE_MULTIPLIER,
             -.99, .99));
 
     turnMotor.set(MathUtil.clamp(turnOutput, -.99, .99));

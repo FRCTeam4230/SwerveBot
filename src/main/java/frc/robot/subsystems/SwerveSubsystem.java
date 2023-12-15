@@ -77,6 +77,10 @@ public class SwerveSubsystem extends SubsystemBase {
     return -Math.IEEEremainder(navx.getAngle(), 360);
   }
 
+  public double getRawHeading() {
+    return navx.getAngle();
+  }
+
   //Gets heading but as Rotation2d object
   public Rotation2d getRotation2d() {
     return Rotation2d.fromDegrees(getHeading());
@@ -99,10 +103,10 @@ public class SwerveSubsystem extends SubsystemBase {
             Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
 
     //Setting swerve module states
-    frontLeft.setDesiredState(desiredStates[0]);
-    frontRight.setDesiredState(desiredStates[1]);
-    backRight.setDesiredState(desiredStates[2]);
+    frontLeft.setDesiredState(desiredStates[1]);
+    frontRight.setDesiredState(desiredStates[0]);
     backLeft.setDesiredState(desiredStates[3]);
+    backRight.setDesiredState(desiredStates[2]);
 
   }
 
@@ -135,5 +139,6 @@ public class SwerveSubsystem extends SubsystemBase {
     builder.addDoubleProperty("Back right turn motor temp celsius", backRight::getTurnMotorTempCelsius, null);
 
     builder.addDoubleProperty("Robot Heading", this::getHeading, null);
+    builder.addDoubleProperty("Robot Raw Angle", this::getRawHeading, null);
   }
 }
