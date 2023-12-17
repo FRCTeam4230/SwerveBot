@@ -88,6 +88,15 @@ public class SwerveModule {
     turnEncoder.setPosition(0);
   }
 
+  public void resetWheelPosition() {
+    turnPidController.setReference(0, CANSparkMax.ControlType.kPosition);
+  }
+
+  public boolean wheelFacingForward() {
+    //If the turn encoders are within -0.03 to 0.03, then the wheel's facing forward
+    return Math.abs(turnEncoder.getPosition()) <= 0.03;
+  }
+
   public SwerveModuleState getState() {
     return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurnPosition()));
   }

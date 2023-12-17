@@ -72,9 +72,20 @@ public class SwerveSubsystem extends SubsystemBase {
     navx.reset();
   }
 
-  //Returns heading between -360 to 360
+  //Returns heading between 0 to 360
   public double getHeading() {
-    return -Math.IEEEremainder(navx.getAngle(), 360);
+    double heading = Math.IEEEremainder(navx.getAngle(), 360);
+    if (heading < 0) {
+      heading += 360.0;
+    }
+
+//    if (heading < 180) {
+//      heading += 180;
+//    } else {
+//      heading -= 180;
+//    }
+
+    return heading;
   }
 
   public double getRawHeading() {
@@ -97,10 +108,24 @@ public class SwerveSubsystem extends SubsystemBase {
     backRight.stop();
   }
 
+  public boolean wheelsFacingForward() {
+    return frontLeft.wheelFacingForward()
+            && frontRight.wheelFacingForward()
+            && backLeft.wheelFacingForward()
+            && backRight.wheelFacingForward();
+  }
+
+  public void resetWheelPositions() {
+    frontLeft.resetWheelPosition();
+    frontRight.resetWheelPosition();
+    backLeft.resetWheelPosition();
+    backRight.resetWheelPosition();
+  }
+
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     //Decreases speed proportionally so that none goes past the velocity limit
     SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates,
-            Constants.DriveConstants.MAX_SPEED_METERS_PER_SEC);
+            Constants.DriveConstants.PHYSICAL_MAX_SPEED_METERS_PER_SEC);
 
     //Setting swerve module states
     frontLeft.setDesiredState(desiredStates[1]);

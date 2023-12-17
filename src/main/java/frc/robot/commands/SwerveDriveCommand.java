@@ -41,14 +41,14 @@ public class SwerveDriveCommand extends CommandBase {
     double ySpeed = ySupplier.getAsDouble();
     double turnSpeed = turnSupplier.getAsDouble();
 
-    // Applying a deadband manually
+    // Applying a deadband
     xSpeed = Math.abs(xSpeed) > Constants.OperatorConstants.DEADBAND ? xSpeed : 0.0;
     ySpeed = Math.abs(ySpeed) > Constants.OperatorConstants.DEADBAND ? ySpeed : 0.0;
     turnSpeed = Math.abs(turnSpeed) > Constants.OperatorConstants.DEADBAND ? turnSpeed : 0.0;
 
     // Limiting acceleration
-    xSpeed *= Constants.DriveConstants.X_MAX_METERS_PER_SECOND;
-    ySpeed *= Constants.DriveConstants.Y_MAX_METERS_PER_SECOND;
+    xSpeed *= Constants.DriveConstants.DRIVE_MAX_METERS_PER_SECOND;
+    ySpeed *= Constants.DriveConstants.DRIVE_MAX_METERS_PER_SECOND;
     turnSpeed *= Constants.DriveConstants.MAX_RADIANS_PER_SECOND;
 
     // Creates chassis speeds object
