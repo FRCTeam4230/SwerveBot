@@ -12,7 +12,7 @@ public class RobotContainer {
 
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   private final RevertToStartingWheelConfigCommand revertToStartingWheelConfigCommand = new RevertToStartingWheelConfigCommand(swerveSubsystem);
-  private final XboxController driverController = new XboxController(Constants.OperatorConstants.kDriverControllerPort);
+  private final XboxController driverController = new XboxController(Constants.OperatorConstants.DRIVER_CONTROLLER_PORT);
 
   private boolean fieldOriented = true;
 

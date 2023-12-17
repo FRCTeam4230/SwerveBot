@@ -12,44 +12,18 @@ import frc.robot.Constants;
 
 public class SwerveSubsystem extends SubsystemBase {
   //Creating swerve modules
-  private final SwerveModule frontLeft = new SwerveModule(
-          Constants.DriveConstants.FRONT_LEFT_DRIVE_MOTOR_ID,
-          Constants.DriveConstants.FRONT_LEFT_TURN_MOTOR_ID,
-          Constants.DriveConstants.FRONT_LEFT_DRIVE_REVERSED,
-          Constants.DriveConstants.FRONT_LEFT_TURN_REVERSED,
-          Constants.DriveConstants.FRONT_LEFT_ABSOLUTE_ENCODER_OFFSET_RAD,
-          Constants.DriveConstants.FRONT_LEFT_ABSOLUTE_ENCODER_REVERSED);
+  private final SwerveModule frontLeft = new SwerveModule(Constants.SwerveModuleConstants.FRONT_LEFT);
 
-  private final SwerveModule frontRight = new SwerveModule(
-          Constants.DriveConstants.FRONT_RIGHT_DRIVE_MOTOR_ID,
-          Constants.DriveConstants.FRONT_RIGHT_TURN_MOTOR_ID,
-          Constants.DriveConstants.FRONT_RIGHT_DRIVE_REVERSED,
-          Constants.DriveConstants.FRONT_RIGHT_TURN_REVERSED,
-          Constants.DriveConstants.FRONT_RIGHT_ABSOLUTE_ENCODER_OFFSET_RAD,
-          Constants.DriveConstants.FRONT_RIGHT_ABSOLUTE_ENCODER_REVERSED);
+  private final SwerveModule frontRight = new SwerveModule(Constants.SwerveModuleConstants.FRONT_RIGHT);
 
-  private final SwerveModule backLeft = new SwerveModule(
-          Constants.DriveConstants.BACK_LEFT_DRIVE_MOTOR_ID,
-          Constants.DriveConstants.BACK_LEFT_TURN_MOTOR_ID,
-          Constants.DriveConstants.BACK_LEFT_DRIVE_REVERSED,
-          Constants.DriveConstants.BACK_LEFT_TURN_REVERSED,
-          Constants.DriveConstants.BACK_LEFT_ABSOLUTE_ENCODER_OFFSET_RAD,
-          Constants.DriveConstants.BACK_LEFT_ABSOLUTE_ENCODER_REVERSED);
+  private final SwerveModule backLeft = new SwerveModule(Constants.SwerveModuleConstants.BACK_LEFT);
 
-  private final SwerveModule backRight = new SwerveModule(
-          Constants.DriveConstants.BACK_RIGHT_DRIVE_MOTOR_ID,
-          Constants.DriveConstants.BACK_RIGHT_TURN_MOTOR_ID,
-          Constants.DriveConstants.BACK_RIGHT_DRIVE_REVERSED,
-          Constants.DriveConstants.BACK_RIGHT_TURN_REVERSED,
-          Constants.DriveConstants.BACK_RIGHT_ABSOLUTE_ENCODER_OFFSET_RAD,
-          Constants.DriveConstants.BACK_RIGHT_ABSOLUTE_ENCODER_REVERSED);
+  private final SwerveModule backRight = new SwerveModule(Constants.SwerveModuleConstants.BACK_RIGHT);
 
   private final AHRS navx = new AHRS(SPI.Port.kMXP);
 
   //Constructor
   public SwerveSubsystem() {
-    //The tutorial said this was needed to zero heading during startup
-    //Doesn't really make sense since I thought the gyro zeroed heading automatically when turned on
     new Thread(() -> {
       try {
         Thread.sleep(1000);
@@ -78,12 +52,6 @@ public class SwerveSubsystem extends SubsystemBase {
     if (heading < 0) {
       heading += 360.0;
     }
-
-//    if (heading < 180) {
-//      heading += 180;
-//    } else {
-//      heading -= 180;
-//    }
 
     return heading;
   }

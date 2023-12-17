@@ -1,9 +1,13 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.*;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.robot.Constants;
 
 public class SwerveModule {
@@ -17,44 +21,39 @@ public class SwerveModule {
   private final SparkMaxPIDController turnPidController;
   private final SparkMaxPIDController drivePidController;
 
-  private final AbsoluteEncoder absoluteEncoder;
+  private final DutyCycleEncoder absoluteEncoder;
   private final SimpleMotorFeedforward driveFeedforward;
   private double lastAngle;//Keeps track of the angle from previous state
-  private double absoluteEncoderOffsetRad;
-  private boolean absoluteEncoderReversed;
+  private final double absoluteEncoderOffsetRad;
+  private final boolean absoluteEncoderReversed;
 
-  public SwerveModule(int driverMotorId, int turningMotorId,
-                      boolean driveMotorReversed, boolean turningMotorReversed,
-                      double absoluteEncoderOffsetRad, boolean absoluteEncoderReversed) {
-    this.absoluteEncoderOffsetRad = absoluteEncoderOffsetRad;
-    this.absoluteEncoderReversed = absoluteEncoderReversed;
+  public SwerveModule(Constants.SwerveModuleConstants config) {
+    absoluteEncoderOffsetRad = config.getAbsoluteEncoderOffsetRad();
+    absoluteEncoderReversed = config.getAbsoluteEncoderReversed();
 
-    driveMotor = new CANSparkMax(driverMotorId, CANSparkMaxLowLevel.MotorType.kBrushless);
-    turnMotor = new CANSparkMax(turningMotorId, CANSparkMaxLowLevel.MotorType.kBrushless);
+    driveMotor = new CANSparkMax(config.getDriveMotorId(), CANSparkMaxLowLevel.MotorType.kBrushless);
+    turnMotor = new CANSparkMax(config.getTurnMotorId(), CANSparkMaxLowLevel.MotorType.kBrushless);
 
     configMotors(driveMotor);
     configMotors(turnMotor);
 
-    driveMotor.setInverted(driveMotorReversed);
-    turnMotor.setInverted(turningMotorReversed);
+    driveMotor.setInverted(config.getDriveReversed());
+    turnMotor.setInverted(config.getTurnReversed());
 
     driveEncoder = driveMotor.getEncoder();
     turnEncoder = turnMotor.getEncoder();
+    absoluteEncoder = new DutyCycleEncoder(config.getAbsoluteEncoderPWMPort());
 
     configEncoders();
-
-    //This might not be right
-    absoluteEncoder = turnMotor.getAbsoluteEncoder(SparkMaxAbsoluteEncoder.Type.kDutyCycle);
-
 
     turnPidController = turnMotor.getPIDController();
     drivePidController = driveMotor.getPIDController();
 
     configPidControllers();
 
-    driveFeedforward = new SimpleMotorFeedforward(Constants.SwerveModuleConstants.FeedForwardConstants.DRIVE_S,
-            Constants.SwerveModuleConstants.FeedForwardConstants.DRIVE_V,
-            Constants.SwerveModuleConstants.FeedForwardConstants.DRIVE_A);
+    driveFeedforward = new SimpleMotorFeedforward(Constants.FeedForwardConstants.DRIVE_S,
+            Constants.FeedForwardConstants.DRIVE_V,
+            Constants.FeedForwardConstants.DRIVE_A);
 
     resetEncoders();
 
@@ -80,12 +79,14 @@ public class SwerveModule {
   }
 
   public double getAbsoluteEncoderRad() {
-    return absoluteEncoder.getPosition();
+    double angle = absoluteEncoderReversed ? -absoluteEncoder.getDistance() : absoluteEncoder.getDistance();
+    angle += absoluteEncoderOffsetRad;
+    return angle;
   }
 
   public void resetEncoders() {
     driveEncoder.setPosition(0);
-    turnEncoder.setPosition(0);
+    turnEncoder.setPosition(getAbsoluteEncoderRad());
   }
 
   public void resetWheelPosition() {
@@ -120,16 +121,11 @@ public class SwerveModule {
                     ? lastAngle
                     : state.angle.getRadians();
 
-    //Setting the angle motor through its builtin PID controller seems to fix the problem of wheel
-    //spins not being optimized, maybe it takes too much time for the signal from integrated encoders to reach the roborio
-    //and get sent back for the spins to be accurate, and by using Spark Max's builtin computer we sped things up
+    //Setting the angle motor through its builtin PID controller fixed the problem of wheel
+    //spins not being optimized
     turnPidController.setReference(angle, CANSparkMax.ControlType.kPosition);
 
     lastAngle = angle;
-  }
-
-  public CANSparkMax getTurnMotor() {
-    return turnMotor;
   }
 
   public double getDriveMotorTempCelsius() {
@@ -141,7 +137,7 @@ public class SwerveModule {
   }
 
   //Right now if a motor is over 30 degrees celsius it is considered overheating
-  //The threshold should be finetuned after practice driving to see that regular driving gets the temp to
+  //The threshold should be fine-tuned after practice driving to see that regular driving gets the temp to
   public boolean isDriveMotorOverheating() {
     return getDriveMotorTempCelsius() >= 30;
   }
@@ -159,26 +155,28 @@ public class SwerveModule {
   private void configMotors(CANSparkMax motor) {
     motor.restoreFactoryDefaults();
     motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
-    motor.setOpenLoopRampRate(Constants.SwerveModuleConstants.RAMP_RATE);
+    motor.setOpenLoopRampRate(Constants.DriveConstants.RAMP_RATE);
   }
 
   private void configEncoders() {
-    driveEncoder.setPositionConversionFactor(Constants.SwerveModuleConstants.ConversionFactors.DRIVE_ENCODER_ROT_TO_METER);
-    driveEncoder.setVelocityConversionFactor(Constants.SwerveModuleConstants.ConversionFactors.DRIVE_ENCODER_ROT_TO_METER_PER_SEC);
-    turnEncoder.setPositionConversionFactor(Constants.SwerveModuleConstants.ConversionFactors.TURN_ENCODER_ROT_TO_RAD);
-    turnEncoder.setVelocityConversionFactor(Constants.SwerveModuleConstants.ConversionFactors.TURN_ENCODER_RPM_TO_RAD_PER_SEC);
+    driveEncoder.setPositionConversionFactor(Constants.ConversionFactors.DRIVE_ENCODER_ROT_TO_METER);
+    driveEncoder.setVelocityConversionFactor(Constants.ConversionFactors.DRIVE_ENCODER_ROT_TO_METER_PER_SEC);
+    turnEncoder.setPositionConversionFactor(Constants.ConversionFactors.TURN_ENCODER_ROT_TO_RAD);
+    turnEncoder.setVelocityConversionFactor(Constants.ConversionFactors.TURN_ENCODER_RPM_TO_RAD_PER_SEC);
+
+    absoluteEncoder.setDistancePerRotation(2 * Math.PI);
   }
 
   private void configPidControllers() {
-    drivePidController.setP(Constants.SwerveModuleConstants.PIDFConstants.TURN_P);
-    drivePidController.setI(Constants.SwerveModuleConstants.PIDFConstants.TURN_I);
-    drivePidController.setD(Constants.SwerveModuleConstants.PIDFConstants.TURN_D);
-    drivePidController.setFF(Constants.SwerveModuleConstants.PIDFConstants.TURN_F);
+    drivePidController.setP(Constants.PIDFConstants.TURN_P);
+    drivePidController.setI(Constants.PIDFConstants.TURN_I);
+    drivePidController.setD(Constants.PIDFConstants.TURN_D);
+    drivePidController.setFF(Constants.PIDFConstants.TURN_F);
 
-    turnPidController.setP(Constants.SwerveModuleConstants.PIDFConstants.DRIVE_P);
-    turnPidController.setI(Constants.SwerveModuleConstants.PIDFConstants.DRIVE_I);
-    turnPidController.setD(Constants.SwerveModuleConstants.PIDFConstants.DRIVE_D);
-    turnPidController.setFF(Constants.SwerveModuleConstants.PIDFConstants.DRIVE_F);
+    turnPidController.setP(Constants.PIDFConstants.DRIVE_P);
+    turnPidController.setI(Constants.PIDFConstants.DRIVE_I);
+    turnPidController.setD(Constants.PIDFConstants.DRIVE_D);
+    turnPidController.setFF(Constants.PIDFConstants.DRIVE_F);
 
     turnPidController.setPositionPIDWrappingEnabled(true);
     turnPidController.setPositionPIDWrappingMaxInput(2 * Math.PI);
