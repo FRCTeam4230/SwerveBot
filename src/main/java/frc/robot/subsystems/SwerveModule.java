@@ -116,10 +116,12 @@ public class SwerveModule {
 
 
     //If the input is small, don't change the angle, makes robot easier to control
-    double angle =
-            Math.abs(state.speedMetersPerSecond) <= Constants.DriveConstants.PHYSICAL_MAX_SPEED_METERS_PER_SEC * 0.01
-                    ? lastAngle
-                    : state.angle.getRadians();
+//    double angle =
+//            Math.abs(state.speedMetersPerSecond) <= Constants.DriveConstants.PHYSICAL_MAX_SPEED_METERS_PER_SEC * 0.01
+//                    ? lastAngle
+//                    : state.angle.getRadians();
+
+    double angle = state.angle.getRadians();
 
     //Setting the angle motor through its builtin PID controller fixed the problem of wheel
     //spins not being optimized

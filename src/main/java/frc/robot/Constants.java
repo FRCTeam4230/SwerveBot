@@ -19,19 +19,19 @@ public final class Constants {
 
   public static class FeedForwardConstants {
     public static final double DRIVE_S = 0.11;
-    public static final double DRIVE_V = 1.0;//2.6335
+    public static final double DRIVE_V = 2.6335;
     public static final double DRIVE_A = 0;
   }
 
   public enum SwerveModuleConstants {
-    FRONT_LEFT(8, 7, false, false,
-            1, false, 1),
-    FRONT_RIGHT(2, 1, true, false,
-            0.312, true, 0),
+    FRONT_LEFT(8, 7, true, false,
+            1.52214, true, 2),
+    FRONT_RIGHT(2, 1, false, false,
+            0.286655, true, 0),
     BACK_LEFT(6, 5, false, false,
-            2, false, 2),
+            1.54025, true, 4),
     BACK_RIGHT(4, 3, false, false,
-            0, false, 3);
+            2.43631, true, 6);
     private final int driveMotorId;
     private final int turnMotorId;
     private final boolean driveReversed;
@@ -97,7 +97,7 @@ public final class Constants {
 
   public static class DriveConstants {
     public static final double RAMP_RATE = 0.2;
-    public static final double DRIVE_MAX_METERS_PER_SECOND = 1.5;
+    public static final double DRIVE_MAX_METERS_PER_SECOND = 2.0;
     public static final double MAX_RADIANS_PER_SECOND = 5.0;
     public static final double PHYSICAL_MAX_SPEED_METERS_PER_SEC = 4.6025;
     public static final double TRACK_WIDTH = Units.inchesToMeters(10.75); //Distance between left and right wheels
@@ -118,6 +118,6 @@ public final class Constants {
 
   public static class OperatorConstants {
     public static final int DRIVER_CONTROLLER_PORT = 0;
-    public static final double DEADBAND = 0.1;
+    public static final double DEADBAND = 0.11;
   }
 }

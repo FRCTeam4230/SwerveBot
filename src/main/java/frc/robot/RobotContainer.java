@@ -32,9 +32,9 @@ public class RobotContainer {
   private void configureDefaultCommands() {
     swerveSubsystem.setDefaultCommand(new SwerveDriveCommand(
             swerveSubsystem,
-            driverController::getLeftY,
-            driverController::getLeftX,
+            driverController::getRightY,
             driverController::getRightX,
+            driverController::getLeftX,
             () -> fieldOriented));
   }
 
